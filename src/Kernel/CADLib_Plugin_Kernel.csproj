@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>CADLib_Plugin_Kernel</RootNamespace>
+    <TargetFramework>net462</TargetFramework>
+    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <LangVersion>7.0</LangVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>x64</Platforms>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GenerateDependencyFile>true</GenerateDependencyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Configurations>Debug;Release</Configurations>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IWindowOpener.cs" />
+    <Compile Remove="WindowOpener.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CADLibControls">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CADLibControls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NApp">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\NApp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Interop.NWEViewerComponentLib">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\Interop.NWEViewerComponentLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AppNWEViewerComponent">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\AppNWEViewerComponent.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CSProject3D">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CSProject3D.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CADLibKernel">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CADLibKernel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NData">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\NData.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CdeLib">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CdeLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

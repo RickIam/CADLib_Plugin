@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CADLib_Plugin_Kernel": {
+      "commandName": "Project"
+    },
+    "CADLib": {
+      "commandName": "Executable",
+      "executablePath": "E:\\Development\\CSoft\\Model Studio CS\\bin\\x64\\CADLib.exe"
+    }
+  }
+}

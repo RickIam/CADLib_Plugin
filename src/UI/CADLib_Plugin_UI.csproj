@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>CADLib_Plugin_UI</RootNamespace>
+    <TargetFramework>net462</TargetFramework>
+    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <LangVersion>7.0</LangVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>x64</Platforms>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GenerateDependencyFile>true</GenerateDependencyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Configurations>Debug;Release</Configurations>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SettingsWindow.cs" />
+    <Compile Remove="SettingsWindow.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kernel\CADLib_Plugin_Kernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CADLibControls">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CADLibControls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NApp">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\NApp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Interop.NWEViewerComponentLib">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\Interop.NWEViewerComponentLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AppNWEViewerComponent">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\AppNWEViewerComponent.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CSProject3D">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CSProject3D.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CADLibKernel">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CADLibKernel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NData">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\NData.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CdeLib">
+      <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CdeLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
