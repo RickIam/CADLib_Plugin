@@ -124,16 +124,17 @@ namespace CADLib_Plugin_UI
                 DataTable defects = new DataTable();
                 if (_isViewMode || _inspectionId.HasValue)
                 {
-                    // В режиме просмотра загружаем только связанные дефекты
                     if (_selectedDefectIds.Any())
                     {
                         using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
                         {
                             connection.Open();
                             string query = @"
-                                SELECT Id, idObject, DefectNumber, Location, Description, DangerCategory, Document, Photo, Recommendation, InspectionId
-                                FROM Defects
-                                WHERE Id IN (" + string.Join(",", _selectedDefectIds) + ")";
+                                SELECT d.Id, d.idObject, d.DefectNumber, d.Location, d.Description, d.DangerCategory, d.Document, d.Photo, d.Recommendation, d.InspectionId,
+                                       o.Name AS ObjectName
+                                FROM Defects d
+                                LEFT JOIN ObjectsShadow o ON d.idObject = o.idObject
+                                WHERE d.Id IN (" + string.Join(",", _selectedDefectIds) + ")";
                             using (var command = new SqlCommand(query, connection))
                             {
                                 using (var adapter = new SqlDataAdapter(command))
@@ -143,13 +144,11 @@ namespace CADLib_Plugin_UI
                             }
                         }
 
-                        // Добавляем пользовательские столбцы в DataTable
                         if (!defects.Columns.Contains("PhotoPreview"))
                             defects.Columns.Add("PhotoPreview", typeof(Image));
                         if (!defects.Columns.Contains("HasDocument"))
                             defects.Columns.Add("HasDocument", typeof(string));
 
-                        // Заполняем данные и изображения
                         using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
                         {
                             connection.Open();
@@ -157,7 +156,6 @@ namespace CADLib_Plugin_UI
                             {
                                 int defectId = (int)row["Id"];
 
-                                // Загружаем фото
                                 string photoQuery = "SELECT Photo FROM Defects WHERE Id = @Id";
                                 using (var command = new SqlCommand(photoQuery, connection))
                                 {
@@ -178,7 +176,6 @@ namespace CADLib_Plugin_UI
                                     }
                                 }
 
-                                // Проверяем наличие документа
                                 string documentQuery = "SELECT Document FROM Defects WHERE Id = @Id";
                                 using (var command = new SqlCommand(documentQuery, connection))
                                 {
@@ -203,23 +200,39 @@ namespace CADLib_Plugin_UI
                 }
                 else
                 {
-                    // В режиме добавления загружаем дефекты для выбранных объектов
                     foreach (int idObject in _objectIds)
                     {
-                        DataTable objectDefects = _defectManager.GetDefectsByObject(idObject);
+                        DataTable objectDefects = new DataTable();
+                        using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
+                        {
+                            connection.Open();
+                            string query = @"
+                                SELECT d.Id, d.idObject, d.DefectNumber, d.Location, d.Description, d.DangerCategory, d.Document, d.Photo, d.Recommendation, d.InspectionId,
+                                       o.Name AS ObjectName
+                                FROM Defects d
+                                LEFT JOIN ObjectsShadow o ON d.idObject = o.idObject
+                                WHERE d.idObject = @idObject";
+                            using (var command = new SqlCommand(query, connection))
+                            {
+                                command.Parameters.AddWithValue("@idObject", idObject);
+                                using (var adapter = new SqlDataAdapter(command))
+                                {
+                                    adapter.Fill(objectDefects);
+                                }
+                            }
+                        }
+
                         if (objectDefects != null && objectDefects.Rows.Count > 0)
                         {
                             defects.Merge(objectDefects);
                         }
                     }
 
-                    // Добавляем пользовательские столбцы в DataTable
                     if (!defects.Columns.Contains("PhotoPreview"))
                         defects.Columns.Add("PhotoPreview", typeof(Image));
                     if (!defects.Columns.Contains("HasDocument"))
                         defects.Columns.Add("HasDocument", typeof(string));
 
-                    // Заполняем данные и изображения
                     using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
                     {
                         connection.Open();
@@ -227,7 +240,6 @@ namespace CADLib_Plugin_UI
                         {
                             int defectId = (int)row["Id"];
 
-                            // Загружаем фото
                             string photoQuery = "SELECT Photo FROM Defects WHERE Id = @Id";
                             using (var command = new SqlCommand(photoQuery, connection))
                             {
@@ -248,7 +260,6 @@ namespace CADLib_Plugin_UI
                                 }
                             }
 
-                            // Проверяем наличие документа
                             string documentQuery = "SELECT Document FROM Defects WHERE Id = @Id";
                             using (var command = new SqlCommand(documentQuery, connection))
                             {
@@ -262,7 +273,6 @@ namespace CADLib_Plugin_UI
                     dataGridViewDefects.DataSource = defects;
                 }
 
-                // Настраиваем видимые столбцы
                 dataGridViewDefects.Columns["Id"].Visible = false;
                 dataGridViewDefects.Columns["idObject"].Visible = false;
                 dataGridViewDefects.Columns["Document"].Visible = false;
@@ -270,7 +280,6 @@ namespace CADLib_Plugin_UI
                 if (dataGridViewDefects.Columns.Contains("InspectionId"))
                     dataGridViewDefects.Columns["InspectionId"].Visible = false;
 
-                // Настраиваем колонку Description для переноса текста
                 if (dataGridViewDefects.Columns["Description"] != null)
                 {
                     dataGridViewDefects.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -278,18 +287,23 @@ namespace CADLib_Plugin_UI
                     dataGridViewDefects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 }
 
-                // Устанавливаем минимальную ширину для колонки Description
                 if (dataGridViewDefects.Columns["Description"] != null)
                 {
                     dataGridViewDefects.Columns["Description"].MinimumWidth = 200;
                     dataGridViewDefects.Columns["Recommendation"].MinimumWidth = 200;
                 }
 
-                // Настраиваем колонку PhotoPreview
                 if (dataGridViewDefects.Columns["PhotoPreview"] != null)
                 {
                     dataGridViewDefects.Columns["PhotoPreview"].HeaderText = "Фото";
                     dataGridViewDefects.Columns["PhotoPreview"].Width = 60;
+                }
+
+                if (dataGridViewDefects.Columns["ObjectName"] != null)
+                {
+                    dataGridViewDefects.Columns["ObjectName"].HeaderText = "Имя объекта";
+                    dataGridViewDefects.Columns["ObjectName"].MinimumWidth = 150;
+                    dataGridViewDefects.Columns["ObjectName"].DisplayIndex = 0;
                 }
 
                 dataGridViewDefects.Columns["DefectNumber"].HeaderText = "№ дефекта";
@@ -299,7 +313,6 @@ namespace CADLib_Plugin_UI
                 dataGridViewDefects.Columns["Recommendation"].HeaderText = "Рекомендация";
                 dataGridViewDefects.Columns["HasDocument"].HeaderText = "Документ загружен";
 
-                // Восстанавливаем выбор дефектов
                 if (dataGridViewDefects.Rows != null)
                 {
                     foreach (DataGridViewRow row in dataGridViewDefects.Rows)
