@@ -26,6 +26,13 @@ namespace CADLib_Plugin_UI
                         throw new ArgumentNullException(nameof(context.DefectManager), "Для окна дефектов требуется IDefectManager.");
                     return new DefectsWindow(context.DefectManager, context.IdObject.Value);
 
+                case "inspections":
+                    if (context?.InspectionManager == null)
+                        throw new ArgumentNullException(nameof(context.InspectionManager), "Для окна экспертиз требуется IInspectionManager.");
+                    if (context?.DefectManager == null)
+                        throw new ArgumentNullException(nameof(context.DefectManager), "Для окна экспертиз требуется IDefectManager.");
+                    return new InspectionsWindow(context.InspectionManager, context.DefectManager, context.MainDBBrowser);
+
                 default:
                     throw new ArgumentException($"Неизвестное окно: {windowName}");
             }

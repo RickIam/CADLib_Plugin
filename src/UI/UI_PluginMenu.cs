@@ -54,6 +54,7 @@ namespace CADLib_Plugin_UI
             tracker.Add(new InterfaceItemState(helloToolStripMenuItem, LibConnectionState.Connected, LibFolderState.DoesNotMatter, LibObjectState.AnySelected, LibRequiredPermission.EditParametersRegistry));
             tracker.Add(new InterfaceItemState(settingsToolStripMenuItem, LibConnectionState.Connected, LibFolderState.DoesNotMatter, LibObjectState.DoesNotMatter, LibRequiredPermission.EditParametersRegistry));
             tracker.Add(new InterfaceItemState(defectsToolStripMenuItem, LibConnectionState.Connected, LibFolderState.DoesNotMatter, LibObjectState.SelectedObject, LibRequiredPermission.EditParametersRegistry));
+            tracker.Add(new InterfaceItemState(inspectionsToolStripMenuItem, LibConnectionState.Connected, LibFolderState.DoesNotMatter, LibObjectState.DoesNotMatter, LibRequiredPermission.EditParametersRegistry));
             //Кнопка aboutToolStripMenuItem будет доступа в любом случае
         }
         #endregion
@@ -71,6 +72,11 @@ namespace CADLib_Plugin_UI
         private void defectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _handler.Function_Handler_Defects();
+        }
+
+        private void inspectionsMenuItem_Click(object sender, EventArgs e)
+        {
+            _handler.Function_Handler_Inspections();
         }
     }
 }

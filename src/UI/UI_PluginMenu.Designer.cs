@@ -30,12 +30,13 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.newPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.helloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inspectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +56,7 @@
             this.helloToolStripMenuItem,
             this.toolStripSeparator1,
             this.defectsToolStripMenuItem,
+            this.inspectionsToolStripMenuItem,
             this.toolStripSeparator2,
             this.aboutToolStripMenuItem,
             this.settingsToolStripMenuItem});
@@ -63,26 +65,10 @@
             this.newPluginToolStripMenuItem.Text = "Ведение ЭИМ";
             this.newPluginToolStripMenuItem.Click += new System.EventHandler(this.newPluginToolStripMenuItem_Click);
             // 
-            // helloToolStripMenuItem
-            // 
-            this.helloToolStripMenuItem.Image = global::CADLib_Plugin_UI.Properties.Resources.UI_Icon_Function_Hello;
-            this.helloToolStripMenuItem.Name = "helloToolStripMenuItem";
-            this.helloToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.helloToolStripMenuItem.Text = "Hello!";
-            this.helloToolStripMenuItem.Click += new System.EventHandler(this.helloToolStripMenuItem_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::CADLib_Plugin_UI.Properties.Resources.UI_Icon_Function_About;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aboutToolStripMenuItem.Text = "Справка";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -102,6 +88,29 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // helloToolStripMenuItem
+            // 
+            this.helloToolStripMenuItem.Image = global::CADLib_Plugin_UI.Properties.Resources.UI_Icon_Function_Hello;
+            this.helloToolStripMenuItem.Name = "helloToolStripMenuItem";
+            this.helloToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helloToolStripMenuItem.Text = "Hello!";
+            this.helloToolStripMenuItem.Click += new System.EventHandler(this.helloToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::CADLib_Plugin_UI.Properties.Resources.UI_Icon_Function_About;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "Справка";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // inspectionsToolStripMenuItem
+            // 
+            this.inspectionsToolStripMenuItem.Name = "inspectionsToolStripMenuItem";
+            this.inspectionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inspectionsToolStripMenuItem.Text = "Экспертизы";
+            this.inspectionsToolStripMenuItem.Click += new System.EventHandler(this.inspectionsMenuItem_Click);
             // 
             // UI_PluginMenu
             // 
@@ -129,5 +138,6 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem inspectionsToolStripMenuItem;
     }
 }

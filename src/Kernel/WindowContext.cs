@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CADLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,9 @@ namespace CADLib_Plugin_Kernel
         public int? IdObject { get; set; }
         public string ConnectionString { get; set; }
         public IDefectManager DefectManager { get; set; }
+        public IInspectionManager InspectionManager { get; set; }
+        public List<int> ObjectIds { get; set; }
+        public IDatabaseBrowser MainDBBrowser { get; set; }
 
         // Добавьляем дополнительные свойства для будущих окон
         // public object AdditionalData { get; set; }

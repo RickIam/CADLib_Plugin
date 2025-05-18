@@ -88,5 +88,22 @@ namespace CADLib_Plugin_Kernel
             };
             _windowManager.OpenWindow("defects", context);
         }
+
+        public void Function_Handler_Inspections()
+        {
+            string connectionString = CommonData.m_library?.GetConnectionStringSQL()
+                            ?? throw new InvalidOperationException("Строка подключения не доступна.");
+            var inspectionManager = new InspectionManager(connectionString);
+            var defectManager = new DefectManager(connectionString);
+
+            var context = new WindowContext
+            {
+                ConnectionString = connectionString,
+                InspectionManager = inspectionManager,
+                DefectManager = defectManager,
+                MainDBBrowser = CommonData.m_mainDBBrowser // Прямая передача m_mainDBBrowser
+            };
+            _windowManager.OpenWindow("inspections", context);
+        }
     }
 }
