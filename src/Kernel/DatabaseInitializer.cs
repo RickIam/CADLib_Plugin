@@ -85,7 +85,7 @@ namespace CADLib_Plugin_Kernel
                             Id INT IDENTITY(1,1) PRIMARY KEY,
                             idObject INT NOT NULL,
                             DefectNumber INT NOT NULL,
-                            Location NVARCHAR(100) NOT NULL,
+                            Location NVARCHAR(100),
                             Description NVARCHAR(1000),
                             DangerCategory CHAR(1) NOT NULL CHECK (DangerCategory IN ('А', 'Б', 'В')),
                             Document VARBINARY(MAX),

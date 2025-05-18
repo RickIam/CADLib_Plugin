@@ -1,4 +1,5 @@
 ﻿using CADLib_Plugin_Kernel;
+using CADLibKernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,10 @@ namespace CADLib_Plugin_UI
 {
     public class WindowManager : IWindowManager
     {
-        public void OpenWindow(string windowName, IDatabaseInitializer dbInitializer)
+        public void OpenWindow(string windowName, WindowContext context)
         {
-            switch (windowName.ToLower())
-            {
-                case "settings":
-                    if (dbInitializer == null)
-                        throw new ArgumentNullException(nameof(dbInitializer), "Для окна настроек требуется IDatabaseInitializer.");
-                    new SettingsWindow(dbInitializer).Show();
-                    break;
-                default:
-                    throw new ArgumentException($"Неизвестное окно: {windowName}");
-            }
+            var window = WindowFactory.CreateWindow(windowName, context);
+            window.ShowDialog();
         }
     }
 }

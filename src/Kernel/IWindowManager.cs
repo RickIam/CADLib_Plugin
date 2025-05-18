@@ -8,6 +8,6 @@ namespace CADLib_Plugin_Kernel
 {
     public interface IWindowManager
     {
-        void OpenWindow(string windowName, IDatabaseInitializer dbInitializer = null);
+        void OpenWindow(string windowName, WindowContext context);
     }
 }

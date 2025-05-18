@@ -55,6 +55,7 @@
       <HintPath>E:\Development\CSoft\Model Studio CS\bin\x64\CdeLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
   </ItemGroup>
 
   <ItemGroup>
