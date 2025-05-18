@@ -19,11 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="SettingsWindow.cs" />
-    <Compile Remove="SettingsWindow.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kernel\CADLib_Plugin_Kernel.csproj" />
   </ItemGroup>
 

@@ -14,11 +14,13 @@ namespace CADLib_Plugin_Kernel
 {
     public class UI_PluginMenu_Handler
     {
-        public UI_PluginMenu_Handler(PluginsManager pluginsManager)
+        private readonly IWindowManager _windowManager;
+        public UI_PluginMenu_Handler(PluginsManager pluginsManager, IWindowManager windowManager)
         {
             CommonData.m_library = pluginsManager.Library;
             CommonData.m_mainForm = pluginsManager.MainForm;
             CommonData.m_mainDBBrowser = pluginsManager.MainDBBrowser;
+            _windowManager = windowManager;
         }
         #region Обработчики нажатия на кнопки
         public void Function_Handler_Hello()
@@ -46,6 +48,11 @@ namespace CADLib_Plugin_Kernel
         {
             var ass_info = Assembly.GetExecutingAssembly().GetName();
             MessageBox.Show("Версия плагина: " + ass_info.Version.ToString());
+        }
+
+        public void Function_Handler_Settings()
+        {
+            _windowManager.OpenWindow("settings");
         }
         #endregion
     }

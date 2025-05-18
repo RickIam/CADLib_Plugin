@@ -24,7 +24,8 @@ namespace CADLib_Plugin_UI
         public UI_PluginMenu(PluginsManager manager)
         {
             InitializeComponent();
-            _handler = new UI_PluginMenu_Handler(manager);
+            var windowManager = new WindowManager();
+            _handler = new UI_PluginMenu_Handler(manager, windowManager);
         }
 
         private void helloToolStripMenuItem_Click(object sender, EventArgs e)
@@ -59,6 +60,11 @@ namespace CADLib_Plugin_UI
         private void newPluginToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _handler.Function_Handler_Settings();
         }
     }
 }
