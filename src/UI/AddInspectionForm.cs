@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,31 +20,75 @@ namespace CADLib_Plugin_UI
         private readonly IDefectManager _defectManager;
         private readonly List<int> _objectIds;
         private readonly int? _inspectionId;
+        private readonly bool _isViewMode; // Флаг режима просмотра
         private List<int> _selectedDefectIds;
 
-        public AddInspectionForm(IInspectionManager inspectionManager, IDefectManager defectManager, List<int> objectIds, int? inspectionId = null)
+        public AddInspectionForm(IInspectionManager inspectionManager, IDefectManager defectManager, List<int> objectIds, int? inspectionId = null, bool isViewMode = false)
         {
             _inspectionManager = inspectionManager ?? throw new ArgumentNullException(nameof(inspectionManager));
             _defectManager = defectManager ?? throw new ArgumentNullException(nameof(defectManager));
-            _objectIds = objectIds ?? throw new ArgumentNullException(nameof(objectIds));
+            _objectIds = objectIds ?? new List<int>();
             _inspectionId = inspectionId;
+            _isViewMode = isViewMode;
             _selectedDefectIds = new List<int>();
             InitializeComponent();
 
-            dateTimePickerInspectionDate.Value = DateTime.Now; // Устанавливаем текущую дату
-            dateTimePickerInspectionDate.Enabled = false; // Делаем поле только для чтения
+            // Устанавливаем стиль окна как изменяемый
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true; // Разрешаем максимализацию
+            this.MinimizeBox = true; // Разрешаем минимизацию
 
-            if (_inspectionId.HasValue)
+            dateTimePickerInspectionDate.Value = DateTime.Now;
+            dateTimePickerInspectionDate.Enabled = false;
+
+            if (_isViewMode)
             {
-                LoadInspectionData();
-                this.Text = "Редактировать экспертизу";
+                ConfigureViewMode();
+            }
+            else if (_inspectionId.HasValue)
+            {
+                ConfigureEditMode();
             }
             else
             {
-                this.Text = "Добавить экспертизу";
+                ConfigureAddMode();
             }
 
             LoadDefects();
+        }
+
+        private void ConfigureAddMode()
+        {
+            this.Text = "Добавить экспертизу";
+            buttonSave.Visible = true;
+            textBoxInspectorName.Enabled = true;
+        }
+
+        private void ConfigureEditMode()
+        {
+            // Этот метод больше не используется, но оставлен для совместимости
+            LoadInspectionData();
+            this.Text = "Редактировать экспертизу";
+            buttonSave.Visible = true;
+            textBoxInspectorName.Enabled = true;
+        }
+
+        private void ConfigureViewMode()
+        {
+            LoadInspectionData();
+            this.Text = "Просмотр экспертизы";
+            buttonSave.Visible = false;
+            textBoxInspectorName.Enabled = false;
+            dataGridViewDefects.Enabled = true;
+            dataGridViewDefects.AllowUserToAddRows = false;
+            dataGridViewDefects.AllowUserToDeleteRows = false;
+            dataGridViewDefects.ReadOnly = true;
+
+            // Убедимся, что прокрутка активна в таблице
+            dataGridViewDefects.ScrollBars = ScrollBars.Both; // Включаем горизонтальную и вертикальную прокрутку
+            dataGridViewDefects.AutoSize = false; // Отключаем автоматический размер
+            dataGridViewDefects.AllowUserToResizeColumns = true; // Разрешаем изменение размера колонок
+            dataGridViewDefects.AllowUserToResizeRows = false; // Запрещаем изменение размера строк
         }
 
         private void LoadInspectionData()
@@ -76,38 +121,185 @@ namespace CADLib_Plugin_UI
         {
             try
             {
-                if (_objectIds == null || !_objectIds.Any())
-                {
-                    MessageBox.Show("Нет выбранных объектов в CadLib. Пожалуйста, выберите объекты перед созданием экспертизы.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Получаем все дефекты для выбранных объектов
                 DataTable defects = new DataTable();
-                foreach (int idObject in _objectIds)
+                if (_isViewMode || _inspectionId.HasValue)
                 {
-                    DataTable objectDefects = _defectManager.GetDefectsByObject(idObject);
-                    if (objectDefects != null && objectDefects.Rows.Count > 0)
+                    // В режиме просмотра загружаем только связанные дефекты
+                    if (_selectedDefectIds.Any())
                     {
-                        defects.Merge(objectDefects);
+                        using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
+                        {
+                            connection.Open();
+                            string query = @"
+                                SELECT Id, idObject, DefectNumber, Location, Description, DangerCategory, Document, Photo, Recommendation, InspectionId
+                                FROM Defects
+                                WHERE Id IN (" + string.Join(",", _selectedDefectIds) + ")";
+                            using (var command = new SqlCommand(query, connection))
+                            {
+                                using (var adapter = new SqlDataAdapter(command))
+                                {
+                                    adapter.Fill(defects);
+                                }
+                            }
+                        }
+
+                        // Добавляем пользовательские столбцы в DataTable
+                        if (!defects.Columns.Contains("PhotoPreview"))
+                            defects.Columns.Add("PhotoPreview", typeof(Image));
+                        if (!defects.Columns.Contains("HasDocument"))
+                            defects.Columns.Add("HasDocument", typeof(string));
+
+                        // Заполняем данные и изображения
+                        using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
+                        {
+                            connection.Open();
+                            foreach (DataRow row in defects.Rows)
+                            {
+                                int defectId = (int)row["Id"];
+
+                                // Загружаем фото
+                                string photoQuery = "SELECT Photo FROM Defects WHERE Id = @Id";
+                                using (var command = new SqlCommand(photoQuery, connection))
+                                {
+                                    command.Parameters.AddWithValue("@Id", defectId);
+                                    var photoData = command.ExecuteScalar() as byte[];
+                                    if (photoData != null)
+                                    {
+                                        using (var ms = new MemoryStream(photoData))
+                                        {
+                                            Image originalImage = Image.FromStream(ms);
+                                            Image thumbnail = originalImage.GetThumbnailImage(50, 50, () => false, IntPtr.Zero);
+                                            row["PhotoPreview"] = thumbnail;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        row["PhotoPreview"] = null;
+                                    }
+                                }
+
+                                // Проверяем наличие документа
+                                string documentQuery = "SELECT Document FROM Defects WHERE Id = @Id";
+                                using (var command = new SqlCommand(documentQuery, connection))
+                                {
+                                    command.Parameters.AddWithValue("@Id", defectId);
+                                    var documentData = command.ExecuteScalar() as byte[];
+                                    row["HasDocument"] = documentData != null ? "Да" : "Нет";
+                                }
+                            }
+                        }
+
+                        dataGridViewDefects.DataSource = defects;
+                    }
+                    else
+                    {
+                        dataGridViewDefects.DataSource = null;
                     }
                 }
+                else if (_objectIds == null || !_objectIds.Any())
+                {
+                    dataGridViewDefects.DataSource = null;
+                    return;
+                }
+                else
+                {
+                    // В режиме добавления загружаем дефекты для выбранных объектов
+                    foreach (int idObject in _objectIds)
+                    {
+                        DataTable objectDefects = _defectManager.GetDefectsByObject(idObject);
+                        if (objectDefects != null && objectDefects.Rows.Count > 0)
+                        {
+                            defects.Merge(objectDefects);
+                        }
+                    }
 
-                dataGridViewDefects.DataSource = defects;
+                    // Добавляем пользовательские столбцы в DataTable
+                    if (!defects.Columns.Contains("PhotoPreview"))
+                        defects.Columns.Add("PhotoPreview", typeof(Image));
+                    if (!defects.Columns.Contains("HasDocument"))
+                        defects.Columns.Add("HasDocument", typeof(string));
 
-                // Проверяем наличие колонок перед настройкой
-                if (dataGridViewDefects.Columns.Contains("Id")) dataGridViewDefects.Columns["Id"].Visible = false;
-                if (dataGridViewDefects.Columns.Contains("IdObject")) dataGridViewDefects.Columns["IdObject"].Visible = false;
-                if (dataGridViewDefects.Columns.Contains("Document")) dataGridViewDefects.Columns["Document"].Visible = false;
-                if (dataGridViewDefects.Columns.Contains("Photo")) dataGridViewDefects.Columns["Photo"].Visible = false;
+                    // Заполняем данные и изображения
+                    using (var connection = new SqlConnection(_defectManager.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_defectManager).ToString()))
+                    {
+                        connection.Open();
+                        foreach (DataRow row in defects.Rows)
+                        {
+                            int defectId = (int)row["Id"];
 
-                if (dataGridViewDefects.Columns.Contains("DefectNumber")) dataGridViewDefects.Columns["DefectNumber"].HeaderText = "№ дефекта";
-                if (dataGridViewDefects.Columns.Contains("Location")) dataGridViewDefects.Columns["Location"].HeaderText = "Местоположение";
-                if (dataGridViewDefects.Columns.Contains("Description")) dataGridViewDefects.Columns["Description"].HeaderText = "Описание";
-                if (dataGridViewDefects.Columns.Contains("DangerCategory")) dataGridViewDefects.Columns["DangerCategory"].HeaderText = "Категория опасности";
-                if (dataGridViewDefects.Columns.Contains("Recommendation")) dataGridViewDefects.Columns["Recommendation"].HeaderText = "Рекомендация";
+                            // Загружаем фото
+                            string photoQuery = "SELECT Photo FROM Defects WHERE Id = @Id";
+                            using (var command = new SqlCommand(photoQuery, connection))
+                            {
+                                command.Parameters.AddWithValue("@Id", defectId);
+                                var photoData = command.ExecuteScalar() as byte[];
+                                if (photoData != null)
+                                {
+                                    using (var ms = new MemoryStream(photoData))
+                                    {
+                                        Image originalImage = Image.FromStream(ms);
+                                        Image thumbnail = originalImage.GetThumbnailImage(50, 50, () => false, IntPtr.Zero);
+                                        row["PhotoPreview"] = thumbnail;
+                                    }
+                                }
+                                else
+                                {
+                                    row["PhotoPreview"] = null;
+                                }
+                            }
 
-                // Восстанавливаем выбор дефектов при редактировании
+                            // Проверяем наличие документа
+                            string documentQuery = "SELECT Document FROM Defects WHERE Id = @Id";
+                            using (var command = new SqlCommand(documentQuery, connection))
+                            {
+                                command.Parameters.AddWithValue("@Id", defectId);
+                                var documentData = command.ExecuteScalar() as byte[];
+                                row["HasDocument"] = documentData != null ? "Да" : "Нет";
+                            }
+                        }
+                    }
+
+                    dataGridViewDefects.DataSource = defects;
+                }
+
+                // Настраиваем видимые столбцы
+                dataGridViewDefects.Columns["Id"].Visible = false;
+                dataGridViewDefects.Columns["idObject"].Visible = false;
+                dataGridViewDefects.Columns["Document"].Visible = false;
+                dataGridViewDefects.Columns["Photo"].Visible = false;
+                if (dataGridViewDefects.Columns.Contains("InspectionId"))
+                    dataGridViewDefects.Columns["InspectionId"].Visible = false;
+
+                // Настраиваем колонку Description для переноса текста
+                if (dataGridViewDefects.Columns["Description"] != null)
+                {
+                    dataGridViewDefects.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridViewDefects.Columns["Recommendation"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridViewDefects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                }
+
+                // Устанавливаем минимальную ширину для колонки Description
+                if (dataGridViewDefects.Columns["Description"] != null)
+                {
+                    dataGridViewDefects.Columns["Description"].MinimumWidth = 200;
+                    dataGridViewDefects.Columns["Recommendation"].MinimumWidth = 200;
+                }
+
+                // Настраиваем колонку PhotoPreview
+                if (dataGridViewDefects.Columns["PhotoPreview"] != null)
+                {
+                    dataGridViewDefects.Columns["PhotoPreview"].HeaderText = "Фото";
+                    dataGridViewDefects.Columns["PhotoPreview"].Width = 60;
+                }
+
+                dataGridViewDefects.Columns["DefectNumber"].HeaderText = "№ дефекта";
+                dataGridViewDefects.Columns["Location"].HeaderText = "Местоположение";
+                dataGridViewDefects.Columns["Description"].HeaderText = "Описание";
+                dataGridViewDefects.Columns["DangerCategory"].HeaderText = "Категория опасности";
+                dataGridViewDefects.Columns["Recommendation"].HeaderText = "Рекомендация";
+                dataGridViewDefects.Columns["HasDocument"].HeaderText = "Документ загружен";
+
+                // Восстанавливаем выбор дефектов
                 if (dataGridViewDefects.Rows != null)
                 {
                     foreach (DataGridViewRow row in dataGridViewDefects.Rows)
@@ -128,6 +320,8 @@ namespace CADLib_Plugin_UI
 
         private void dataGridViewDefects_SelectionChanged(object sender, EventArgs e)
         {
+            if (_isViewMode) return; // В режиме просмотра не обновляем выбор
+
             _selectedDefectIds.Clear();
             if (dataGridViewDefects.SelectedRows != null)
             {
@@ -150,6 +344,8 @@ namespace CADLib_Plugin_UI
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            if (_isViewMode) return; // В режиме просмотра кнопка неактивна
+
             if (string.IsNullOrWhiteSpace(textBoxInspectorName.Text))
             {
                 MessageBox.Show("Укажите имя инспектора.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -168,7 +364,6 @@ namespace CADLib_Plugin_UI
                 if (_inspectionId.HasValue)
                 {
                     _inspectionManager.UpdateInspection(inspection);
-                    // Обновляем InspectionId для всех выбранных дефектов
                     UpdateDefectInspectionIds(_inspectionId.Value);
                 }
                 else

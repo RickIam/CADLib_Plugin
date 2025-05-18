@@ -62,9 +62,9 @@
             this.buttonEditInspection.Name = "buttonEditInspection";
             this.buttonEditInspection.Size = new System.Drawing.Size(120, 23);
             this.buttonEditInspection.TabIndex = 2;
-            this.buttonEditInspection.Text = "Редактировать";
+            this.buttonEditInspection.Text = "Просмотреть";
             this.buttonEditInspection.UseVisualStyleBackColor = true;
-            this.buttonEditInspection.Click += new System.EventHandler(this.buttonEditInspection_Click);
+            this.buttonEditInspection.Click += new System.EventHandler(this.buttonViewInspection_Click);
             this.buttonEditInspection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // buttonDeleteInspection

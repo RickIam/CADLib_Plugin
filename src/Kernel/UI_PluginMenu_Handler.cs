@@ -24,31 +24,10 @@ namespace CADLib_Plugin_Kernel
         }
         #region Обработчики нажатия на кнопки
         #endregion
-        public void Function_Handler_Hello()
-        {
-            //MessageBox.Show("Hello, CADLib!");
-            //var g = new Guid("1DDB2EB8-4331-4E1A-99D9-20925016AE1E");
-            //CLibObjectInfo obj = CommonData.m_library.GetLibraryObject(g);
-            
-            //List<CLibObjectInfo> list = CommonData.m_mainDBBrowser.GetSelectedObjects(false);
-            //list.Add(obj);
-            //CommonData.m_library.GetParamDefId("Description_Defect_2");
-            //CommonData.m_library.GetParamDef(10830);
-            //CommonData.m_library.AddParameterToObject(list.First(), 10830);
-            //CommonData.m_library.SetObjectName(list, "Колонна К14 К14 - 23 upd 2");
-            //CADLibKernel.ObjectData obj2 = CommonData.m_library.GetObject("1DDB2EB8-4331-4E1A-99D9-20925016AE1E",0);
-            //CommonData.m_library.UpdateObjectName(obj, "Колонна К14 К14 - 23 upd 3");
-            //CommonData.m_library.GetObjectParameters(list.First().idObject);
-            //CommonData.m_mainDBBrowser.UpdateWindow();
-            //CommonData.m_library.UpdateObjectNames(list);
-            //CommonData.m_mainForm.Update();
-            //string connect = CommonData.m_library.GetConnectionString();
-        }
 
         public void Function_Handler_About()
         {
-            var ass_info = Assembly.GetExecutingAssembly().GetName();
-            MessageBox.Show("Версия плагина: " + ass_info.Version.ToString());
+            MessageBox.Show("Плагин разработан для загрузки эксплуатационной информации модели. Для начала работы откройте вкладку настройки и проверьте наличие необходимых таблиц, при отсутствии добавьте через интерфейс плагина. Для работы плагина необходимо открыть модель. Для загрузки дефекта, должен быть выбран один объект модели. Для создания экспертизы нужно выбрать объекты, дефекты которых, будут добавлены в экспертизу.");
         }
 
         public void Function_Handler_Settings()

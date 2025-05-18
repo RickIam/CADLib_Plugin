@@ -34,9 +34,6 @@ namespace CADLib_Plugin_UI
             this.dateTimePickerInspectionDate = new System.Windows.Forms.DateTimePicker();
             this.labelInspectorName = new System.Windows.Forms.Label();
             this.textBoxInspectorName = new System.Windows.Forms.TextBox();
-            this.labelConclusion = new System.Windows.Forms.Label();
-            this.textBoxConclusion = new System.Windows.Forms.TextBox();
-            this.labelDefects = new System.Windows.Forms.Label();
             this.dataGridViewDefects = new System.Windows.Forms.DataGridView();
             this.labelSelectedDefects = new System.Windows.Forms.Label();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -48,10 +45,9 @@ namespace CADLib_Plugin_UI
             this.labelInspectionDate.AutoSize = true;
             this.labelInspectionDate.Location = new System.Drawing.Point(20, 20);
             this.labelInspectionDate.Name = "labelInspectionDate";
-            this.labelInspectionDate.Size = new System.Drawing.Size(94, 13);
+            this.labelInspectionDate.Size = new System.Drawing.Size(100, 13);
             this.labelInspectionDate.TabIndex = 0;
             this.labelInspectionDate.Text = "Дата экспертизы:";
-            this.labelInspectionDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // dateTimePickerInspectionDate
             // 
@@ -59,7 +55,6 @@ namespace CADLib_Plugin_UI
             this.dateTimePickerInspectionDate.Name = "dateTimePickerInspectionDate";
             this.dateTimePickerInspectionDate.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerInspectionDate.TabIndex = 1;
-            this.dateTimePickerInspectionDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // labelInspectorName
             // 
@@ -69,7 +64,6 @@ namespace CADLib_Plugin_UI
             this.labelInspectorName.Size = new System.Drawing.Size(94, 13);
             this.labelInspectorName.TabIndex = 2;
             this.labelInspectorName.Text = "Имя инспектора:";
-            this.labelInspectorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // textBoxInspectorName
             // 
@@ -77,82 +71,48 @@ namespace CADLib_Plugin_UI
             this.textBoxInspectorName.Name = "textBoxInspectorName";
             this.textBoxInspectorName.Size = new System.Drawing.Size(200, 20);
             this.textBoxInspectorName.TabIndex = 3;
-            this.textBoxInspectorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-            // 
-            // labelConclusion
-            // 
-            this.labelConclusion.AutoSize = true;
-            this.labelConclusion.Location = new System.Drawing.Point(20, 80);
-            this.labelConclusion.Name = "labelConclusion";
-            this.labelConclusion.Size = new System.Drawing.Size(60, 13);
-            this.labelConclusion.TabIndex = 4;
-            this.labelConclusion.Text = "Заключение:";
-            this.labelConclusion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-            // 
-            // textBoxConclusion
-            // 
-            this.textBoxConclusion.Location = new System.Drawing.Point(120, 80);
-            this.textBoxConclusion.Multiline = true;
-            this.textBoxConclusion.Name = "textBoxConclusion";
-            this.textBoxConclusion.Size = new System.Drawing.Size(560, 60);
-            this.textBoxConclusion.TabIndex = 5;
-            this.textBoxConclusion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // labelDefects
-            // 
-            this.labelDefects.AutoSize = true;
-            this.labelDefects.Location = new System.Drawing.Point(20, 150);
-            this.labelDefects.Name = "labelDefects";
-            this.labelDefects.Size = new System.Drawing.Size(94, 13);
-            this.labelDefects.TabIndex = 6;
-            this.labelDefects.Text = "Выберите дефекты:";
-            this.labelDefects.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // dataGridViewDefects
             // 
+            this.dataGridViewDefects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewDefects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDefects.Location = new System.Drawing.Point(20, 170);
+            this.dataGridViewDefects.Location = new System.Drawing.Point(20, 102);
             this.dataGridViewDefects.Name = "dataGridViewDefects";
-            this.dataGridViewDefects.Size = new System.Drawing.Size(660, 200);
+            this.dataGridViewDefects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewDefects.Size = new System.Drawing.Size(660, 236);
             this.dataGridViewDefects.TabIndex = 7;
-            this.dataGridViewDefects.MultiSelect = true;
-            this.dataGridViewDefects.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewDefects.SelectionChanged += new System.EventHandler(this.dataGridViewDefects_SelectionChanged);
-            this.dataGridViewDefects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // labelSelectedDefects
             // 
             this.labelSelectedDefects.AutoSize = true;
-            this.labelSelectedDefects.Location = new System.Drawing.Point(20, 380);
+            this.labelSelectedDefects.Location = new System.Drawing.Point(20, 82);
             this.labelSelectedDefects.Name = "labelSelectedDefects";
-            this.labelSelectedDefects.Size = new System.Drawing.Size(94, 13);
+            this.labelSelectedDefects.Size = new System.Drawing.Size(116, 13);
             this.labelSelectedDefects.TabIndex = 8;
             this.labelSelectedDefects.Text = "Выбрано дефектов: 0";
-            this.labelSelectedDefects.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(560, 380);
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(560, 344);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(120, 23);
             this.buttonSave.TabIndex = 9;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // AddInspectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 420);
+            this.ClientSize = new System.Drawing.Size(700, 381);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelSelectedDefects);
             this.Controls.Add(this.dataGridViewDefects);
-            this.Controls.Add(this.labelDefects);
-            this.Controls.Add(this.textBoxConclusion);
-            this.Controls.Add(this.labelConclusion);
             this.Controls.Add(this.textBoxInspectorName);
             this.Controls.Add(this.labelInspectorName);
             this.Controls.Add(this.dateTimePickerInspectionDate);
@@ -160,9 +120,9 @@ namespace CADLib_Plugin_UI
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(700, 420);
             this.Name = "AddInspectionForm";
             this.Text = "Добавить экспертизу";
-            this.MinimumSize = new System.Drawing.Size(700, 420);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefects)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -173,12 +133,9 @@ namespace CADLib_Plugin_UI
 
         private System.Windows.Forms.Label labelInspectionDate;
         private System.Windows.Forms.Label labelInspectorName;
-        private System.Windows.Forms.Label labelConclusion;
-        private System.Windows.Forms.Label labelDefects;
         private System.Windows.Forms.Label labelSelectedDefects;
         private System.Windows.Forms.DateTimePicker dateTimePickerInspectionDate;
         private System.Windows.Forms.TextBox textBoxInspectorName;
-        private System.Windows.Forms.TextBox textBoxConclusion;
         private System.Windows.Forms.DataGridView dataGridViewDefects;
         private System.Windows.Forms.Button buttonSave;
     }

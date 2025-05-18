@@ -73,7 +73,7 @@ namespace CADLib_Plugin_UI
             }
         }
 
-        private void buttonEditInspection_Click(object sender, EventArgs e)
+        private void buttonViewInspection_Click(object sender, EventArgs e)
         {
             if (dataGridViewInspections.SelectedRows.Count == 0)
             {
@@ -81,29 +81,10 @@ namespace CADLib_Plugin_UI
                 return;
             }
 
-            if (_mainDBBrowser == null)
-            {
-                MessageBox.Show("Нет доступа к выбору объектов. Проверьте настройки плагина.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            List<CLibObjectInfo> selectedObjects = _mainDBBrowser.GetSelectedObjects(false);
-            if (selectedObjects == null || !selectedObjects.Any())
-            {
-                MessageBox.Show("Нет выбранных объектов в CadLib. Пожалуйста, выберите объекты перед созданием экспертизы.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Собираем все IdObject из выбранных объектов
-            List<int> objectIds = selectedObjects.Select(obj => obj.idObject).ToList();
-
             int inspectionId = (int)dataGridViewInspections.SelectedRows[0].Cells["Id"].Value;
-            using (var editInspectionForm = new AddInspectionForm(_inspectionManager, _defectManager, objectIds, inspectionId))
+            using (var viewInspectionForm = new AddInspectionForm(_inspectionManager, _defectManager, new List<int>(), inspectionId, true)) // Передаём флаг isViewMode
             {
-                if (editInspectionForm.ShowDialog() == DialogResult.OK)
-                {
-                    LoadInspections();
-                }
+                viewInspectionForm.ShowDialog(); // Просто показываем форму в режиме просмотра
             }
         }
 
