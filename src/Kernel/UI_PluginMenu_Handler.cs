@@ -15,7 +15,6 @@ namespace CADLib_Plugin_Kernel
     public class UI_PluginMenu_Handler
     {
         private readonly IWindowManager _windowManager;
-        private readonly IDatabaseInitializer _dbInitializer;
         public UI_PluginMenu_Handler(PluginsManager pluginsManager, IWindowManager windowManager)
         {
             CommonData.m_library = pluginsManager.Library;

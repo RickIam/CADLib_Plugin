@@ -48,15 +48,17 @@
             this.labelLocation.AutoSize = true;
             this.labelLocation.Location = new System.Drawing.Point(20, 20);
             this.labelLocation.Name = "labelLocation";
-            this.labelLocation.Size = new System.Drawing.Size(94, 13);
+            this.labelLocation.Size = new System.Drawing.Size(98, 13);
             this.labelLocation.TabIndex = 0;
             this.labelLocation.Text = "Местоположение:";
             // 
             // textBoxLocation
             // 
-            this.textBoxLocation.Location = new System.Drawing.Point(120, 20);
+            this.textBoxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLocation.Location = new System.Drawing.Point(142, 20);
             this.textBoxLocation.Name = "textBoxLocation";
-            this.textBoxLocation.Size = new System.Drawing.Size(260, 20);
+            this.textBoxLocation.Size = new System.Drawing.Size(294, 20);
             this.textBoxLocation.TabIndex = 1;
             // 
             // labelDescription
@@ -70,10 +72,12 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(120, 50);
+            this.textBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxDescription.Location = new System.Drawing.Point(142, 50);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Size = new System.Drawing.Size(260, 60);
+            this.textBoxDescription.Size = new System.Drawing.Size(294, 60);
             this.textBoxDescription.TabIndex = 3;
             // 
             // labelDangerCategory
@@ -81,15 +85,18 @@
             this.labelDangerCategory.AutoSize = true;
             this.labelDangerCategory.Location = new System.Drawing.Point(20, 120);
             this.labelDangerCategory.Name = "labelDangerCategory";
-            this.labelDangerCategory.Size = new System.Drawing.Size(94, 13);
+            this.labelDangerCategory.Size = new System.Drawing.Size(119, 13);
             this.labelDangerCategory.TabIndex = 4;
             this.labelDangerCategory.Text = "Категория опасности:";
             // 
             // comboBoxDangerCategory
             // 
             this.comboBoxDangerCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDangerCategory.Items.AddRange(new object[] { "А", "Б", "В" });
-            this.comboBoxDangerCategory.Location = new System.Drawing.Point(120, 120);
+            this.comboBoxDangerCategory.Items.AddRange(new object[] {
+            "А",
+            "Б",
+            "В"});
+            this.comboBoxDangerCategory.Location = new System.Drawing.Point(142, 120);
             this.comboBoxDangerCategory.Name = "comboBoxDangerCategory";
             this.comboBoxDangerCategory.Size = new System.Drawing.Size(50, 21);
             this.comboBoxDangerCategory.TabIndex = 5;
@@ -99,16 +106,18 @@
             this.labelRecommendation.AutoSize = true;
             this.labelRecommendation.Location = new System.Drawing.Point(20, 150);
             this.labelRecommendation.Name = "labelRecommendation";
-            this.labelRecommendation.Size = new System.Drawing.Size(94, 13);
+            this.labelRecommendation.Size = new System.Drawing.Size(85, 13);
             this.labelRecommendation.TabIndex = 6;
             this.labelRecommendation.Text = "Рекомендация:";
             // 
             // textBoxRecommendation
             // 
-            this.textBoxRecommendation.Location = new System.Drawing.Point(120, 150);
+            this.textBoxRecommendation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxRecommendation.Location = new System.Drawing.Point(142, 150);
             this.textBoxRecommendation.Multiline = true;
             this.textBoxRecommendation.Name = "textBoxRecommendation";
-            this.textBoxRecommendation.Size = new System.Drawing.Size(260, 60);
+            this.textBoxRecommendation.Size = new System.Drawing.Size(294, 60);
             this.textBoxRecommendation.TabIndex = 7;
             // 
             // labelDocument
@@ -116,13 +125,14 @@
             this.labelDocument.AutoSize = true;
             this.labelDocument.Location = new System.Drawing.Point(20, 220);
             this.labelDocument.Name = "labelDocument";
-            this.labelDocument.Size = new System.Drawing.Size(94, 13);
+            this.labelDocument.Size = new System.Drawing.Size(124, 13);
             this.labelDocument.TabIndex = 8;
             this.labelDocument.Text = "Документ не загружен";
             // 
             // buttonUploadDocument
             // 
-            this.buttonUploadDocument.Location = new System.Drawing.Point(120, 220);
+            this.buttonUploadDocument.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUploadDocument.Location = new System.Drawing.Point(316, 220);
             this.buttonUploadDocument.Name = "buttonUploadDocument";
             this.buttonUploadDocument.Size = new System.Drawing.Size(120, 23);
             this.buttonUploadDocument.TabIndex = 9;
@@ -135,13 +145,14 @@
             this.labelPhoto.AutoSize = true;
             this.labelPhoto.Location = new System.Drawing.Point(20, 250);
             this.labelPhoto.Name = "labelPhoto";
-            this.labelPhoto.Size = new System.Drawing.Size(94, 13);
+            this.labelPhoto.Size = new System.Drawing.Size(107, 13);
             this.labelPhoto.TabIndex = 10;
             this.labelPhoto.Text = "Фото не загружено";
             // 
             // buttonUploadPhoto
             // 
-            this.buttonUploadPhoto.Location = new System.Drawing.Point(120, 250);
+            this.buttonUploadPhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUploadPhoto.Location = new System.Drawing.Point(316, 250);
             this.buttonUploadPhoto.Name = "buttonUploadPhoto";
             this.buttonUploadPhoto.Size = new System.Drawing.Size(120, 23);
             this.buttonUploadPhoto.TabIndex = 11;
@@ -151,7 +162,8 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(260, 280);
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(316, 280);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(120, 23);
             this.buttonSave.TabIndex = 12;
@@ -163,7 +175,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 320);
+            this.ClientSize = new System.Drawing.Size(456, 316);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonUploadPhoto);
             this.Controls.Add(this.labelPhoto);
@@ -180,27 +192,26 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(400, 320);
             this.Name = "AddDefectForm";
             this.Text = "Добавить дефект";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        #endregion
-
         private System.Windows.Forms.Label labelLocation;
-        private System.Windows.Forms.Label labelDescription;
-        private System.Windows.Forms.Label labelDangerCategory;
-        private System.Windows.Forms.Label labelRecommendation;
-        private System.Windows.Forms.Label labelDocument;
-        private System.Windows.Forms.Label labelPhoto;
         private System.Windows.Forms.TextBox textBoxLocation;
+        private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.TextBox textBoxDescription;
-        private System.Windows.Forms.TextBox textBoxRecommendation;
+        private System.Windows.Forms.Label labelDangerCategory;
         private System.Windows.Forms.ComboBox comboBoxDangerCategory;
+        private System.Windows.Forms.Label labelRecommendation;
+        private System.Windows.Forms.TextBox textBoxRecommendation;
+        private System.Windows.Forms.Label labelDocument;
         private System.Windows.Forms.Button buttonUploadDocument;
+        private System.Windows.Forms.Label labelPhoto;
         private System.Windows.Forms.Button buttonUploadPhoto;
         private System.Windows.Forms.Button buttonSave;
+        #endregion
     }
 }

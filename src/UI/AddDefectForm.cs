@@ -17,6 +17,8 @@ namespace CADLib_Plugin_UI
         private readonly IDefectManager _defectManager;
         private readonly int _idObject;
         private readonly int? _defectId; // Если редактирование, то содержит Id дефекта
+        private byte[] _originalPhoto; // Хранит исходное фото
+        private byte[] _originalDocument; // Хранит исходный документ
 
         public AddDefectForm(IDefectManager defectManager, int idObject, int? defectId = null)
         {
@@ -43,18 +45,21 @@ namespace CADLib_Plugin_UI
             textBoxDescription.Text = defect.Description;
             comboBoxDangerCategory.SelectedItem = defect.DangerCategory;
             textBoxRecommendation.Text = defect.Recommendation;
-            // Документ и фото не загружаем в поля, только показываем, что они есть
-            labelDocument.Text = defect.Document != null ? "Документ загружен" : "Документ не загружен";
-            labelPhoto.Text = defect.Photo != null ? "Фото загружено" : "Фото не загружено";
+            _originalPhoto = defect.Photo; // Сохраняем исходные данные
+            _originalDocument = defect.Document; // Сохраняем исходные данные
+            UpdateStatusLabels(defect.Photo, defect.Document);
+        }
+
+        private void UpdateStatusLabels(byte[] photo, byte[] document)
+        {
+            labelPhoto.Text = photo != null ? "Фото загружено" : "Фото не загружено";
+            labelDocument.Text = document != null ? "Документ загружен" : "Документ не загружен";
+            labelPhoto.Tag = photo; // Сохраняем данные для последующей обработки
+            labelDocument.Tag = document;
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxLocation.Text))
-            {
-                MessageBox.Show("Укажите местоположение конструкции.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             if (comboBoxDangerCategory.SelectedItem == null)
             {
@@ -72,8 +77,8 @@ namespace CADLib_Plugin_UI
                     Description = textBoxDescription.Text,
                     DangerCategory = comboBoxDangerCategory.SelectedItem.ToString(),
                     Recommendation = textBoxRecommendation.Text,
-                    Document = labelDocument.Tag as byte[], // Может быть null
-                    Photo = labelPhoto.Tag as byte[] // Может быть null
+                    Document = labelDocument.Tag as byte[] ?? _originalDocument, // Используем исходный документ, если не загружен новый
+                    Photo = labelPhoto.Tag as byte[] ?? _originalPhoto // Используем исходное фото, если не загружено новое
                 };
 
                 if (_defectId.HasValue)
@@ -104,8 +109,7 @@ namespace CADLib_Plugin_UI
                     try
                     {
                         byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
-                        labelDocument.Text = "Документ загружен: " + Path.GetFileName(openFileDialog.FileName);
-                        labelDocument.Tag = fileBytes; // Сохраняем байты в Tag
+                        UpdateStatusLabels(labelPhoto.Tag as byte[], fileBytes);
                     }
                     catch (Exception ex)
                     {
@@ -125,8 +129,7 @@ namespace CADLib_Plugin_UI
                     try
                     {
                         byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
-                        labelPhoto.Text = "Фото загружено: " + Path.GetFileName(openFileDialog.FileName);
-                        labelPhoto.Tag = fileBytes; // Сохраняем байты в Tag
+                        UpdateStatusLabels(fileBytes, labelDocument.Tag as byte[]);
                     }
                     catch (Exception ex)
                     {

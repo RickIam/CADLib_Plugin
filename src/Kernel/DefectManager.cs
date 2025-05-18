@@ -132,5 +132,36 @@ namespace CADLib_Plugin_Kernel
                 }
             }
         }
+
+        public byte[] GetDocument(int defectId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Document FROM Defects WHERE Id = @Id";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", defectId);
+                    var result = command.ExecuteScalar();
+                    return result != DBNull.Value ? (byte[])result : null;
+                }
+            }
+        }
+
+        public byte[] GetPhoto(int defectId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Photo FROM Defects WHERE Id = @Id";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", defectId);
+                    var result = command.ExecuteScalar();
+                    return result != DBNull.Value ? (byte[])result : null;
+                }
+            }
+        }
     }
 }
+

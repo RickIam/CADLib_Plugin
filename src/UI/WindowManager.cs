@@ -14,7 +14,7 @@ namespace CADLib_Plugin_UI
         public void OpenWindow(string windowName, WindowContext context)
         {
             var window = WindowFactory.CreateWindow(windowName, context);
-            window.ShowDialog();
+            window.Show();
         }
     }
 }

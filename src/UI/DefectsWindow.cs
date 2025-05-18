@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,17 +31,51 @@ namespace CADLib_Plugin_UI
             try
             {
                 DataTable defects = _defectManager.GetDefectsByObject(_idObject);
+
+                // Добавляем пользовательские столбцы в DataTable
+                if (!defects.Columns.Contains("HasPhoto"))
+                    defects.Columns.Add("HasPhoto", typeof(string));
+                if (!defects.Columns.Contains("HasDocument"))
+                    defects.Columns.Add("HasDocument", typeof(string));
+
+                // Заполняем данные и статусы
+                foreach (DataRow row in defects.Rows)
+                {
+                    int defectId = (int)row["Id"];
+                    row["HasPhoto"] = _defectManager.GetPhoto(defectId) != null ? "Да" : "Нет";
+                    row["HasDocument"] = _defectManager.GetDocument(defectId) != null ? "Да" : "Нет";
+                }
                 dataGridViewDefects.DataSource = defects;
+
+                // Настраиваем видимые столбцы
                 dataGridViewDefects.Columns["Id"].Visible = false; // Скрываем Id
                 dataGridViewDefects.Columns["idObject"].Visible = false; // Скрываем IdObject
                 dataGridViewDefects.Columns["Document"].Visible = false; // Скрываем двоичные данные
                 dataGridViewDefects.Columns["Photo"].Visible = false; // Скрываем двоичные данные
+
+                // Настраиваем колонку Description для переноса текста
+                if (dataGridViewDefects.Columns["Description"] != null)
+                {
+                    dataGridViewDefects.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridViewDefects.Columns["Recommendation"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridViewDefects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Автоматическая подстройка высоты строк
+                }
+
+                // Устанавливаем минимальную ширину для колонки Description
+                if (dataGridViewDefects.Columns["Description"] != null)
+                {
+                    dataGridViewDefects.Columns["Description"].MinimumWidth = 200; // Минимальная ширина для отображения текста
+                    dataGridViewDefects.Columns["Recommendation"].MinimumWidth = 200;
+                }
+
                 dataGridViewDefects.Columns["DefectNumber"].HeaderText = "№ дефекта";
                 dataGridViewDefects.Columns["Location"].HeaderText = "Местоположение";
                 dataGridViewDefects.Columns["Description"].HeaderText = "Описание";
                 dataGridViewDefects.Columns["DangerCategory"].HeaderText = "Категория опасности";
                 dataGridViewDefects.Columns["Recommendation"].HeaderText = "Рекомендация";
                 dataGridViewDefects.Columns["InspectionId"].HeaderText = "ID экспертизы";
+                dataGridViewDefects.Columns["HasPhoto"].HeaderText = "Фото загружено";
+                dataGridViewDefects.Columns["HasDocument"].HeaderText = "Документ загружен";
             }
             catch (Exception ex)
             {
@@ -96,6 +132,72 @@ namespace CADLib_Plugin_UI
                 {
                     MessageBox.Show($"Ошибка при удалении дефекта: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        private void buttonViewPhoto_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewDefects.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите дефект для просмотра фото.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int defectId = (int)dataGridViewDefects.SelectedRows[0].Cells["Id"].Value;
+            try
+            {
+                byte[] photoData = _defectManager.GetPhoto(defectId);
+                if (photoData == null)
+                {
+                    MessageBox.Show("Фото не загружено для этого дефекта.", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                string tempFilePath = Path.Combine(Path.GetTempPath(), $"defect_photo_{defectId}.jpg");
+                File.WriteAllBytes(tempFilePath, photoData);
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = tempFilePath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при просмотре фото: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonDownloadDocument_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewDefects.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите дефект для скачивания документа.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int defectId = (int)dataGridViewDefects.SelectedRows[0].Cells["Id"].Value;
+            try
+            {
+                byte[] documentData = _defectManager.GetDocument(defectId);
+                if (documentData == null)
+                {
+                    MessageBox.Show("Документ не загружен для этого дефекта.", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "Word Documents|*.docx";
+                    saveFileDialog.FileName = $"defect_document_{defectId}.docx";
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(saveFileDialog.FileName, documentData);
+                        MessageBox.Show("Документ успешно сохранен.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при скачивании документа: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

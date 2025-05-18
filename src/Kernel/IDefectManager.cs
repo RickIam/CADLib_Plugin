@@ -14,5 +14,7 @@ namespace CADLib_Plugin_Kernel
         void AddDefect(Defect defect);
         void UpdateDefect(Defect defect);
         void DeleteDefect(int defectId);
+        byte[] GetDocument(int defectId);
+        byte[] GetPhoto(int defectId);
     }
 }
