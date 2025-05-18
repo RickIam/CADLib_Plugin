@@ -15,6 +15,7 @@ namespace CADLib_Plugin_Kernel
     public class UI_PluginMenu_Handler
     {
         private readonly IWindowManager _windowManager;
+        private readonly IDatabaseInitializer _dbInitializer;
         public UI_PluginMenu_Handler(PluginsManager pluginsManager, IWindowManager windowManager)
         {
             CommonData.m_library = pluginsManager.Library;
@@ -52,7 +53,10 @@ namespace CADLib_Plugin_Kernel
 
         public void Function_Handler_Settings()
         {
-            _windowManager.OpenWindow("settings");
+            string connectionString = CommonData.m_library?.GetConnectionStringSQL()
+                ?? throw new InvalidOperationException("Строка подключения не доступна.");
+            var dbInitializer = new DatabaseInitializer(connectionString);
+            _windowManager.OpenWindow("settings", dbInitializer);
         }
         #endregion
     }

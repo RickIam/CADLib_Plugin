@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CADLib_Plugin_Kernel
 {
-    public interface IWindowManager
+    public interface IDatabaseInitializer
     {
-        void OpenWindow(string windowName, IDatabaseInitializer dbInitializer = null);
+        void CheckTablesExist(out bool defectsExists, out bool inspectionsExists);
+        void CreateTables();
     }
 }

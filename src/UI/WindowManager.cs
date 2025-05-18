@@ -10,12 +10,14 @@ namespace CADLib_Plugin_UI
 {
     public class WindowManager : IWindowManager
     {
-        public void OpenWindow(string windowName)
+        public void OpenWindow(string windowName, IDatabaseInitializer dbInitializer)
         {
             switch (windowName.ToLower())
             {
                 case "settings":
-                    new SettingsWindow().Show();
+                    if (dbInitializer == null)
+                        throw new ArgumentNullException(nameof(dbInitializer), "Для окна настроек требуется IDatabaseInitializer.");
+                    new SettingsWindow(dbInitializer).Show();
                     break;
                 default:
                     throw new ArgumentException($"Неизвестное окно: {windowName}");
