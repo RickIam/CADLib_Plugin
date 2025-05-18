@@ -33,16 +33,30 @@ namespace CADLib_Plugin_UI
                 DataTable defects = _defectManager.GetDefectsByObject(_idObject);
 
                 // Добавляем пользовательские столбцы в DataTable
-                if (!defects.Columns.Contains("HasPhoto"))
-                    defects.Columns.Add("HasPhoto", typeof(string));
+                if (!defects.Columns.Contains("PhotoPreview"))
+                    defects.Columns.Add("PhotoPreview", typeof(Image)); // Столбец для отображения фото
                 if (!defects.Columns.Contains("HasDocument"))
                     defects.Columns.Add("HasDocument", typeof(string));
 
-                // Заполняем данные и статусы
+                // Заполняем данные и изображения
                 foreach (DataRow row in defects.Rows)
                 {
                     int defectId = (int)row["Id"];
-                    row["HasPhoto"] = _defectManager.GetPhoto(defectId) != null ? "Да" : "Нет";
+                    byte[] photoData = _defectManager.GetPhoto(defectId);
+                    if (photoData != null)
+                    {
+                        using (var ms = new MemoryStream(photoData))
+                        {
+                            Image originalImage = Image.FromStream(ms);
+                            // Масштабируем изображение для отображения в таблице (например, 50x50 пикселей)
+                            Image thumbnail = originalImage.GetThumbnailImage(50, 50, () => false, IntPtr.Zero);
+                            row["PhotoPreview"] = thumbnail;
+                        }
+                    }
+                    else
+                    {
+                        row["PhotoPreview"] = null; // Если фото нет, оставляем пустым
+                    }
                     row["HasDocument"] = _defectManager.GetDocument(defectId) != null ? "Да" : "Нет";
                 }
                 dataGridViewDefects.DataSource = defects;
@@ -52,6 +66,7 @@ namespace CADLib_Plugin_UI
                 dataGridViewDefects.Columns["idObject"].Visible = false; // Скрываем IdObject
                 dataGridViewDefects.Columns["Document"].Visible = false; // Скрываем двоичные данные
                 dataGridViewDefects.Columns["Photo"].Visible = false; // Скрываем двоичные данные
+                dataGridViewDefects.Columns["InspectionId"].Visible = false;
 
                 // Настраиваем колонку Description для переноса текста
                 if (dataGridViewDefects.Columns["Description"] != null)
@@ -68,13 +83,18 @@ namespace CADLib_Plugin_UI
                     dataGridViewDefects.Columns["Recommendation"].MinimumWidth = 200;
                 }
 
+                // Настраиваем колонку PhotoPreview
+                if (dataGridViewDefects.Columns["PhotoPreview"] != null)
+                {
+                    dataGridViewDefects.Columns["PhotoPreview"].HeaderText = "Фото";
+                    dataGridViewDefects.Columns["PhotoPreview"].Width = 60; // Устанавливаем ширину для колонки с фото
+                }
+
                 dataGridViewDefects.Columns["DefectNumber"].HeaderText = "№ дефекта";
                 dataGridViewDefects.Columns["Location"].HeaderText = "Местоположение";
                 dataGridViewDefects.Columns["Description"].HeaderText = "Описание";
                 dataGridViewDefects.Columns["DangerCategory"].HeaderText = "Категория опасности";
                 dataGridViewDefects.Columns["Recommendation"].HeaderText = "Рекомендация";
-                dataGridViewDefects.Columns["InspectionId"].HeaderText = "ID экспертизы";
-                dataGridViewDefects.Columns["HasPhoto"].HeaderText = "Фото загружено";
                 dataGridViewDefects.Columns["HasDocument"].HeaderText = "Документ загружен";
             }
             catch (Exception ex)

@@ -61,11 +61,18 @@ namespace CADLib_Plugin_UI
         private void buttonSave_Click(object sender, EventArgs e)
         {
 
+            if (string.IsNullOrWhiteSpace(textBoxDescription.Text))
+            {
+                MessageBox.Show("Поле 'Описание' не может быть пустым.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (comboBoxDangerCategory.SelectedItem == null)
             {
                 MessageBox.Show("Выберите категорию опасности.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
 
             try
             {
