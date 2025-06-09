@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CADLib_Plugin_UI.AddDefectForm">
+    <Position X="5" Y="0.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUIDAQQAACAAAAkAAQDEAAiCBAAQAAAAJAAABgACAgg=</HashCode>
+      <FileName>AddDefectForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.AddInspectionForm">
+    <Position X="7.5" Y="4.25" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAEEAACEQAAAAAQDAVAgCAAAAQggAIAgClgIQAAg=</HashCode>
+      <FileName>AddInspectionForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.DefectsWindow">
+    <Position X="0.5" Y="4.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACACACBAACAAAgAAAACABAACCAAAggAAEAQAAAAAAAg=</HashCode>
+      <FileName>DefectsWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.InspectionsWindow">
+    <Position X="5" Y="3.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BQAIAAIAACAQQAAAAACgAAACAAACAAAAAAEAAIAAAAg=</HashCode>
+      <FileName>InspectionsWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.SettingsWindow">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAQEAAASIAAAAAAACAAAACAAAAAAAAAAABAAAAEAA=</HashCode>
+      <FileName>SettingsWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.UI_PluginMenu" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AQAQBAgAQCAAAAkAAAGCAQACAACBASAAAAAAAIQAAAA=</HashCode>
+      <FileName>UI_PluginMenu.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CADLib_Plugin_UI.WindowFactory">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_UI.WindowManager" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

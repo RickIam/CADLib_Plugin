@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CADLib_Plugin_Kernel.CommonData">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>CommonData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.DatabaseInitializer" BaseTypeListCollapsed="true">
+    <Position X="3" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAIAAAAAAAAACA=</HashCode>
+      <FileName>DatabaseInitializer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.163" Collapsed="true" />
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.Defect">
+    <Position X="3" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAACgACAAAAMAAAAAAAAAAAACAAAAAAAAEQA=</HashCode>
+      <FileName>Defect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.DefectManager" BaseTypeListCollapsed="true">
+    <Position X="5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQEgAAAAAgAAAAAAAAAAAAAAAAAIAAgAgAAACAA=</HashCode>
+      <FileName>DefectManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.Inspection">
+    <Position X="7" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Inspection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.InspectionManager" BaseTypeListCollapsed="true">
+    <Position X="7" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAACAAAAAEAAIAgAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>InspectionManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.UI_PluginMenu_Handler">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAABAAAAAAAAAAAAAAAAAABAAAAgAAAAAAAAAQA=</HashCode>
+      <FileName>UI_PluginMenu_Handler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CADLib_Plugin_Kernel.WindowContext">
+    <Position X="5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAABQAAAAAAFAAAAACAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>WindowContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CADLib_Plugin_Kernel.IDatabaseInitializer">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>IDatabaseInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CADLib_Plugin_Kernel.IDefectManager">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQEgAAAAAgAAAAAAAAAAAAAAAAAAAAgAgAAACAA=</HashCode>
+      <FileName>IDefectManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CADLib_Plugin_Kernel.IInspectionManager">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAACAAAAAEAAIAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IInspectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CADLib_Plugin_Kernel.IWindowManager">
+    <Position X="5.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IWindowManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
