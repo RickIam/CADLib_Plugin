@@ -33,6 +33,7 @@
             this.labelInspections = new System.Windows.Forms.Label();
             this.labelInspectionsStatus = new System.Windows.Forms.Label();
             this.buttonCreateTables = new System.Windows.Forms.Button();
+            this.buttonAddParameters = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelDefects
@@ -81,11 +82,22 @@
             this.buttonCreateTables.UseVisualStyleBackColor = true;
             this.buttonCreateTables.Click += new System.EventHandler(this.buttonCreateTables_Click);
             // 
+            // buttonAddParameters
+            // 
+            this.buttonAddParameters.Location = new System.Drawing.Point(150, 80);
+            this.buttonAddParameters.Name = "buttonAddParameters";
+            this.buttonAddParameters.Size = new System.Drawing.Size(150, 23);
+            this.buttonAddParameters.TabIndex = 5;
+            this.buttonAddParameters.Text = "Подготовить для Web";
+            this.buttonAddParameters.UseVisualStyleBackColor = true;
+            this.buttonAddParameters.Click += new System.EventHandler(this.buttonAddParameters_Click);
+            // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(400, 300);
+            this.Controls.Add(this.buttonAddParameters);
             this.Controls.Add(this.buttonCreateTables);
             this.Controls.Add(this.labelInspectionsStatus);
             this.Controls.Add(this.labelInspections);
@@ -106,5 +118,6 @@
         private System.Windows.Forms.Label labelInspections;
         private System.Windows.Forms.Label labelInspectionsStatus;
         private System.Windows.Forms.Button buttonCreateTables;
+        private System.Windows.Forms.Button buttonAddParameters;
     }
 }

@@ -17,7 +17,7 @@ namespace CADLib_Plugin_UI
                 case "settings":
                     if (context?.DatabaseInitializer == null)
                         throw new ArgumentNullException(nameof(context.DatabaseInitializer), "Для окна настроек требуется IDatabaseInitializer.");
-                    return new SettingsWindow(context.DatabaseInitializer);
+                    return new SettingsWindow(context.DatabaseInitializer, context.m_library);
 
                 case "defects":
                     if (!context?.IdObject.HasValue ?? true)

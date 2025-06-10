@@ -16,6 +16,7 @@ namespace CADLib_Plugin_Kernel
         public IInspectionManager InspectionManager { get; set; }
         public List<int> ObjectIds { get; set; }
         public IDatabaseBrowser MainDBBrowser { get; set; }
+        public CADLibrary m_library { get; set; }
 
         // Добавьляем дополнительные свойства для будущих окон
         // public object AdditionalData { get; set; }

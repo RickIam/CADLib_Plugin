@@ -37,7 +37,8 @@ namespace CADLib_Plugin_Kernel
             var dbInitializer = new DatabaseInitializer(connectionString);
             var context = new WindowContext
             {
-                DatabaseInitializer = new DatabaseInitializer(connectionString)
+                DatabaseInitializer = new DatabaseInitializer(connectionString),
+                m_library = CommonData.m_library
             };
             _windowManager.OpenWindow("settings", context);
         }
