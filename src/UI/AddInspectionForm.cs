@@ -211,7 +211,7 @@ namespace CADLib_Plugin_UI
                                        o.Name AS ObjectName
                                 FROM Defects d
                                 LEFT JOIN ObjectsShadow o ON d.idObject = o.idObject
-                                WHERE d.idObject = @idObject";
+                                WHERE d.idObject = @idObject AND d.InspectionId IS NULL";
                             using (var command = new SqlCommand(query, connection))
                             {
                                 command.Parameters.AddWithValue("@idObject", idObject);
